@@ -4,6 +4,7 @@ import type Tema from "../../../models/Tema";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { buscar, cadastrar, atualizar} from "../../../services/Service";
 import { ClipLoader } from "react-spinners";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function FormTema() {
 
@@ -46,7 +47,7 @@ function FormTema() {
   // Cria um useEffect para monitorar o token
   useEffect( () => {
     if(token === '') {
-      alert('É preciso estar logado para realizar esta ação');
+      ToastAlerta('É preciso estar logado para realizar esta ação', 'info');
       navigate('/')
     }
   }, [token])
@@ -75,12 +76,12 @@ function FormTema() {
         await atualizar('/temas', tema, setTema, {
           headers: {Authorization: token}
         });
-        alert("Tema atualizado com sucesso!")
+        ToastAlerta('Tema atualizado com sucesso!', 'sucesso')
       }catch(error: any){
         if(error.toString().includes('401')){
           handleLogout();
         } else {
-          alert('Erro ao Cadastrar o Tema')
+          ToastAlerta('Erro ao Cadastrar o Tema', 'erro')
         }
     }
 
@@ -89,12 +90,12 @@ function FormTema() {
         await cadastrar('/temas', tema, setTema, {
           headers: {Authorization: token}
         });
-        alert("Tema cadastrado com sucesso!")
+        ToastAlerta('Tema cadastrado com sucesso!', 'sucesso')
       }catch(error: any){
         if(error.toString().includes('401')){
           handleLogout();
         } else {
-          alert('Erro ao Cadastrar o Tema')
+          ToastAlerta('Erro ao Cadastrar o Tema', 'erro')
         }
       }
     }
